@@ -95,10 +95,7 @@ void parseArgs(char* args[], char inputBuff[])
 			inputBuff[i] = '\0';
 			inArg = false;
 		}
-
 		i++;
 	}
-
-
 	args[k] = NULL;
 }
