@@ -1,6 +1,7 @@
-#include "../global.h"
+#include "../lib/global.h"
+#include "../lib/cd.h"
 
-int crawlDirectory ()
+int crawlDirectory (char* path[])
 {
 
     return 0;

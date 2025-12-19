@@ -1,5 +1,5 @@
-#include "global.h"
-#include"jshell.h"
+#include "lib/global.h"
+#include"lib/jshell.h"
 
 int main()
 {
