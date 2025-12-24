@@ -48,18 +48,17 @@ int main()
 				continue;
 			}
 
-			if (strcmp(args[0], "cd") == 0) {
-				if (args[1] == NULL) {
-					fprintf(stderr, "cd: missing argument\n");
-				} else if (chdir(args[1]) == -1) {
-					perror("cd");
+			for (int i = 0; i < 1; i++)
+			{
+				if (strcmp(args[0],builtIns[i].name) == 0)
+				{
+					builtIns[i].func(args);
+					isBuiltIn = 1;
 				}
-				continue;
 			}
 
 			if (!isBuiltIn)
 			{
-				// TODO: built-in handle
 				if (strcmp(args[0], "exit") == 0)
 				{
 					return 0;
