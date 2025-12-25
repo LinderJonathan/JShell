@@ -3,10 +3,11 @@
 
 typedef struct builtIn {
 	const char *name;
-	void (*func)(char *args[]);
+	int (*func)(char *args[]);
 } builtIn;
 
 extern builtIn builtIns[];
 
-void builtInJcd(char *args[]);
+int builtInJcd(char *args[]);
+int builtInJexit(char *args[]);
 void parseArgs(char *args[], char inputBuff[]);

@@ -7,7 +7,7 @@ int main()
 	char path[MAX_PATH_SIZE];
 	char inputBuff[MAX_INPUT_SIZE];
 	char *args[MAX_NUM_OF_ARGS];
-	int isBuiltIn = 0;
+	int builtInHandled = 0;
 	int shellRunning = 1;
 	printf(
 		ANSI_COLOR_BLUE 
@@ -35,7 +35,7 @@ int main()
 		
 	while (shellRunning)
 	{
-		isBuiltIn = 0;
+		builtInHandled = 0;
 		if (getcwd(path, sizeof(path)) != NULL)
 		{
 			fgets(inputBuff, MAX_INPUT_SIZE, stdin);
@@ -53,17 +53,16 @@ int main()
 				if (strcmp(args[0],builtIns[i].name) == 0)
 				{
 					builtIns[i].func(args);
-					isBuiltIn = 1;
+					builtInHandled = 1;
+					break;
 				}
 			}
-
-			if (!isBuiltIn)
+			if (builtInHandled)
 			{
-				if (strcmp(args[0], "exit") == 0)
-				{
-					return 0;
-				}
-
+				continue;
+			}
+			else
+			{
 				__pid_t pid = getpid();
 				__pid_t child_pid = fork();
 				__pid_t child_ppid = getppid();
@@ -82,6 +81,8 @@ int main()
 				// execute built-in commands in parent process
 				wait(NULL);
 			}
+
+			getcwd(path, sizeof(path));
 			printf("%s > ", path);
 		}
 	}

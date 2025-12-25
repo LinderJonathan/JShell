@@ -4,6 +4,10 @@
 builtIn builtIns[] = 
 {
 	{
+		"jexit",
+		builtInJexit
+	},
+	{
 		"jcd",
 		builtInJcd
 	}
@@ -34,15 +38,21 @@ void parseArgs(char* args[], char inputBuff[])
 }
 
 
-void builtInJcd(char *args[])
+int builtInJcd(char *args[])
 {
 	if (args[1] == NULL)
 	{
 		fprintf(stderr, "cd: no path provided\n");
-		return;
+		return 1;
 	}
 	if (chdir(args[1]) == -1)
 	{
 		perror("cd");
 	}
+	return 1;
+}
+
+int builtInJexit(char *args[])
+{
+	exit(0);
 }
