@@ -48,7 +48,7 @@ int main()
 				continue;
 			}
 
-			for (int i = 0; i < 1; i++)
+			for (int i = 0; i < NUM_BUILTIN; i++)
 			{
 				if (strcmp(args[0],builtIns[i].name) == 0)
 				{
@@ -59,6 +59,7 @@ int main()
 			}
 			if (builtInHandled)
 			{
+				printf("%s > ", path);
 				continue;
 			}
 			else

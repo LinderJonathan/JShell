@@ -7,6 +7,7 @@ typedef struct builtIn {
 } builtIn;
 
 extern builtIn builtIns[];
+extern int NUM_BUILTIN;
 
 int builtInJcd(char *args[]);
 int builtInJexit(char *args[]);

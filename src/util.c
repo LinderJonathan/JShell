@@ -13,6 +13,8 @@ builtIn builtIns[] =
 	}
 };
 
+int NUM_BUILTIN = sizeof(builtIns) / sizeof(builtIn);
+
 void parseArgs(char* args[], char inputBuff[])
 {
 	__uint8_t i = 0;
