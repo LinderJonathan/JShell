@@ -78,7 +78,6 @@ int main()
 
 			// TODO: fill command history with input in buffer each iteration
 
-			printf("%s", commandHistory[0]);
 			int builtInHandled = runBuiltIn(args);
 			if (builtInHandled == BUILT_IN_NOT_HANDLED)
 			{

@@ -25,6 +25,16 @@ void clearLine(int bufferLength)
 	}
 }
 
+int getLength(char *buffer)
+{
+	int length = 0;
+	while (buffer[length] != '\0')
+	{
+		length++;
+	}
+	return length;
+}
+
 void printPath(char *path, size_t size)
 {
 
@@ -132,6 +142,8 @@ int readInput(struct termios *tsNew, struct termios *tsOld, char *inputBuffer, s
 			// handle backspace
 			else if (c == 0x7f || c == '\b')
 			{
+				// TODO: handle weird buffering of back-spaces
+				printf("Input length: %d", inputLength);
 				if (inputLength > 0)
 				{
 					inputLength--;
@@ -139,7 +151,7 @@ int readInput(struct termios *tsNew, struct termios *tsOld, char *inputBuffer, s
 				}
 				continue;
 			}
-			// handle arrow up or down
+			// handle arrow up or downs
 			else if (c == '\x1b')
 			{
 				char seq[2];
@@ -151,16 +163,30 @@ int readInput(struct termios *tsNew, struct termios *tsOld, char *inputBuffer, s
 					if (seq[1] == 'A')
 					{
 						if (commandLen == 0) { return 0; }
+
+						clearLine(getLength(inputBuffer));
 						commandIndex = (commandIndex + 1) % commandLen;
-						
 					}
 					// handle DOWN
 					else if (seq[1] == 'B')
 					{
 						if (commandLen == 0) { return 0; }
+
+						clearLine(getLength(inputBuffer));
 						commandIndex = (commandIndex - 1 + MAX_NUM_COMMAND_HISTORY) % MAX_NUM_COMMAND_HISTORY;
 					}
-					clearLine(inputLength);
+
+					/*
+					TODO: investigate buffer bug
+					- when navigating UP/DOWN, it seems that write and clearline overwrite too much characters
+					- this happens when:
+						- NAVIGATE UP/DOWN
+						- BACK SPACE
+						- NAVIGATE UP/DOWN (AGAIN)
+					*/
+					size_t commandLen = strlen(commandHistory[commandIndex]);
+					inputLength = commandLen;
+					memcpy(inputBuffer, commandHistory[commandIndex], commandLen + 1);
 					write(STDOUT_FILENO, commandHistory[commandIndex], sizeof commandHistory[commandIndex]);
 				}
 				continue;
