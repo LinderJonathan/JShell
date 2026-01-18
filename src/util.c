@@ -16,7 +16,6 @@ builtIn builtIns[] =
 
 const size_t NUM_BUILTIN = sizeof(builtIns) / sizeof(builtIn);
 
-// Clear 'bufferLength' amount of char from command line.
 void clearLine(int bufferLength)
 {
 	for (int i = 0; i < bufferLength; i++)
@@ -143,10 +142,10 @@ int readInput(struct termios *tsNew, struct termios *tsOld, char *inputBuffer, s
 			else if (c == 0x7f || c == '\b')
 			{
 				// TODO: handle weird buffering of back-spaces
-				printf("Input length: %d", inputLength);
 				if (inputLength > 0)
 				{
 					inputLength--;
+					inputBuffer[inputLength] = '\0';
 					write(STDOUT_FILENO, "\b \b", 3);
 				}
 				continue;
@@ -162,7 +161,7 @@ int readInput(struct termios *tsNew, struct termios *tsOld, char *inputBuffer, s
 					// handle UP
 					if (seq[1] == 'A')
 					{
-						if (commandLen == 0) { return 0; }
+						if (commandLen == 0) { continue; }
 
 						clearLine(getLength(inputBuffer));
 						commandIndex = (commandIndex + 1) % commandLen;
@@ -170,22 +169,13 @@ int readInput(struct termios *tsNew, struct termios *tsOld, char *inputBuffer, s
 					// handle DOWN
 					else if (seq[1] == 'B')
 					{
-						if (commandLen == 0) { return 0; }
+						if (commandLen == 0) { continue;; }
 
 						clearLine(getLength(inputBuffer));
 						commandIndex = (commandIndex - 1 + MAX_NUM_COMMAND_HISTORY) % MAX_NUM_COMMAND_HISTORY;
 					}
 
-					/*
-					TODO: investigate buffer bug
-					- when navigating UP/DOWN, it seems that write and clearline overwrite too much characters
-					- this happens when:
-						- NAVIGATE UP/DOWN
-						- BACK SPACE
-						- NAVIGATE UP/DOWN (AGAIN)
-					*/
-					size_t commandLen = strlen(commandHistory[commandIndex]);
-					inputLength = commandLen;
+					inputLength = strlen(commandHistory[commandIndex]);
 					memcpy(inputBuffer, commandHistory[commandIndex], commandLen + 1);
 					write(STDOUT_FILENO, commandHistory[commandIndex], sizeof commandHistory[commandIndex]);
 				}
