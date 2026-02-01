@@ -76,8 +76,6 @@ int main()
 				continue;
 			}
 
-			// TODO: fill command history with input in buffer each iteration
-
 			int builtInHandled = runBuiltIn(args);
 			if (builtInHandled == BUILT_IN_NOT_HANDLED)
 			{
@@ -96,7 +94,6 @@ int main()
 					perror("execvp");
 					exit(EXIT_FAILURE);
 				}
-				// TODO: any code in parent process?
 				wait(NULL);
 			}
 			printPath(path, sizeof path);
