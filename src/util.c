@@ -141,7 +141,6 @@ int readInput(struct termios *tsNew, struct termios *tsOld, char *inputBuffer, s
 			// handle backspace
 			else if (c == 0x7f || c == '\b')
 			{
-				// TODO: handle weird buffering of back-spaces
 				if (inputLength > 0)
 				{
 					inputLength--;
