@@ -1,7 +1,7 @@
 # JShell - light weight unix shell
-JShell is a light weight shell. The purpose of the project was two-fold:
-1. Better understand OS: how system calls are handled through creating and handling of program processes.
-2. TODO: write about every-day use
+JShell is a light weight, easy-to-use shell. The purpose of the project was two-fold:
+1. Better understand OS how system calls are handled through creating and handling of program processes.
+2. To serve as my 1st choice of shell for my everyday use. This way, if I require functionality that is not yet supported, I will be required to implement it (I use Windows OS at the time of writing, need to migrate to UNIX to use more frequently!)
 
 ## Supported funtionality
 JShell supports the fundamental functionality for POSIX shells. It supports standard POSIX functionality most assicoated with UNIX-based systems, but also non-interface supported commands that require built-in support, like navigation. It also supports simple program interrupt signals.
@@ -53,3 +53,11 @@ make all
 ```
 The program is a lightweight REPL that continously reads and parses input. If a valid program name and arguments are entered, a child process will spawn and run execute the program. To exit the program, simply type ``jexit``
 ## Future improvements
+JShell supports the very fundamental functionality you would expect from a shell. There is therefore heaps of room to improve current implemented functionality, but also to add more. Below is a listing of potential fixes and suggestions to new functionality
+* There is currently ta bug with the parser where quotation marks are not parsed correctly. This is an issue when running commands that parse several words separated by space as a single argument. For example, committing in **git** is not possible.
+
+```bash
+git commit -m "each word in this commit message will be parsed as an argument, not the entire line starting amd ending with a quoation mark"
+```
+
+* New functionality! Just open a pull request I will likely accept anything
